@@ -13,6 +13,7 @@ import NetworkStatus from './NetworkStatus';
 import RiskDisclaimer from './RiskDisclaimer';
 import ServerTime from './ServerTime';
 import WhatsApp from './WhatsApp';
+import YouTube from './YouTube';
 import './footer.scss';
 
 const Footer = () => {
@@ -31,6 +32,7 @@ const Footer = () => {
             <RiskDisclaimer />
             <Livechat />
             <WhatsApp />
+            <YouTube />
             <div className='app-footer__vertical-line' />
             <ServerTime />
             <div className='app-footer__vertical-line' />

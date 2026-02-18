@@ -22,6 +22,10 @@ const Bots = observer(() => {
 
             const xmlContent = await response.text();
 
+            // Switch to Bot Builder tab FIRST so the user sees the workspace immediately
+            // The loading spinner will appear on top of the Bot Builder, not the bots list
+            setActiveTab(DBOT_TABS.BOT_BUILDER);
+
             // Load the XML into the workspace using loadStrategyToBuilder
             await loadStrategyToBuilder({
                 id: bot.id,
@@ -30,12 +34,6 @@ const Bots = observer(() => {
                 save_type: 'unsaved',
                 timestamp: Date.now(),
             });
-
-            // Close the load modal if it's open (to prevent "double screen" issues)
-            load_modal.toggleLoadModal(false);
-
-            // Switch to Bot Builder tab to show the loaded bot
-            setActiveTab(DBOT_TABS.BOT_BUILDER);
         } catch (error) {
             console.error('Error loading bot:', error);
         }

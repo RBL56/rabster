@@ -16,7 +16,7 @@ const WelcomeScreen = ({ message }: TWelcomeScreenProps) => {
                 {/* Optional Robot Icon could go here */}
 
                 <h1 className='welcome-screen__title'>
-                    <Localize i18n_default_text='Welcome to Loco Tool' />
+                    <Localize i18n_default_text='Welcome to Loco Hub Tool' />
                 </h1>
 
                 <p className='welcome-screen__subtitle'>

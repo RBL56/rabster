@@ -9,7 +9,7 @@ const WhatsApp = () => {
         <Tooltip
             as='a'
             className='app-footer__icon'
-            href='https://wa.me/254757722344'
+            href='https://wa.me/254750452512'
             target='_blank'
             tooltipContent={localize('WhatsApp')}
         >

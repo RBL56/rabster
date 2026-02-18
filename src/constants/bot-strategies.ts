@@ -14,8 +14,8 @@ export const BOT_STRATEGIES: BotStrategy[] = [
     // Automatic Bots (6) - Fully automated with complete risk management
     {
         id: 'loco-premium-ai',
-        name: 'Loco Premium A.I',
-        description: 'Advanced AI-powered automatic trading with intelligent decision making',
+        name: 'Loco Hub Premium A.I',
+        description: 'Advanced AI-powered automatic trading with Loco Hub intelligent decision making',
         type: 'automatic',
         xmlPath: 'Automatic/LOCO PREMIUM A.I.xml',
     },
@@ -28,15 +28,15 @@ export const BOT_STRATEGIES: BotStrategy[] = [
     },
     {
         id: 'loco-rise-fall-auto',
-        name: 'Loco Rise Fall Auto',
-        description: 'Automated rise/fall strategy with built-in risk management',
+        name: 'Loco Hub Rise Fall Auto',
+        description: 'Automated Loco Hub rise/fall strategy with built-in risk management',
         type: 'automatic',
         xmlPath: 'Automatic/LOCO RISE FALL AUTO.xml',
     },
     {
         id: 'loco-under8-over3',
-        name: 'Loco Under 8 Over 3 Auto',
-        description: 'Specialized automatic digits strategy targeting under 8 and over 3',
+        name: 'Loco Hub Under 8 Over 3 Auto',
+        description: 'Specialized automatic Loco Hub digits strategy targeting under 8 and over 3',
         type: 'automatic',
         xmlPath: 'Automatic/LOCO UNDER 8 OVER 3 AUTO.xml',
     },
@@ -75,15 +75,15 @@ export const BOT_STRATEGIES: BotStrategy[] = [
     // Normal Bots (3) - Require manual oversight and parameter tuning
     {
         id: 'loco-pro',
-        name: 'Loco Pro',
-        description: 'Professional-grade trading bot with customizable parameters',
+        name: 'Loco Hub Pro',
+        description: 'Professional-grade Loco Hub trading bot with customizable parameters',
         type: 'normal',
         xmlPath: 'Normal Bots/LOCO PRO.xml',
     },
     {
         id: 'loco-speedbot',
-        name: 'Loco Speedbot',
-        description: 'High-speed trading bot optimized for quick market movements',
+        name: 'Loco Hub Speedbot',
+        description: 'High-speed Loco Hub trading bot optimized for quick market movements',
         type: 'normal',
         xmlPath: 'Normal Bots/Loco Speedbot.xml',
     },

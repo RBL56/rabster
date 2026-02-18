@@ -132,7 +132,6 @@ const Layout = observer(() => {
     useEffect(() => {
         // Always set the currency in session storage, even if the user is not logged in
         // This ensures the currency is available on the callback page
-        setIsAuthenticating(true);
         if (currency) {
             sessionStorage.setItem('query_param_currency', currency);
         }
@@ -150,6 +149,7 @@ const Layout = observer(() => {
             return;
         }
 
+        setIsAuthenticating(true);
         // Create an async IIFE to handle authentication
         (async () => {
             try {
@@ -172,10 +172,10 @@ const Layout = observer(() => {
                             redirectCallbackUri: `${window.location.origin}/callback`,
                             ...(query_param_currency
                                 ? {
-                                      state: {
-                                          account: query_param_currency,
-                                      },
-                                  }
+                                    state: {
+                                        account: query_param_currency,
+                                    },
+                                }
                                 : {}),
                         });
                     } catch (err) {

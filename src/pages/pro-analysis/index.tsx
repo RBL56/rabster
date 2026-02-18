@@ -6,7 +6,7 @@ const ProAnalysis = () => {
             <iframe
                 src="https://v0-locodtradesversion22-phi.vercel.app/"
                 style={{ width: '100%', height: '100%', border: 'none' }}
-                title={localize('Loco Analysis')}
+                title={localize('Loco Hub Analysis')}
             />
         </div>
     );

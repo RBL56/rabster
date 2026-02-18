@@ -12,11 +12,11 @@
     },
     "platforms": {
         "trader": {
-            "name": "Deriv Trader",
+            "name": "Loco Hub",
             "icon": "IcRebrandingDerivTrader"
         },
         "dbot": {
-            "name": "Deriv Bot",
+            "name": "Loco Hub",
             "icon": "IcRebrandingDerivBot"
         },
         "mt5": {

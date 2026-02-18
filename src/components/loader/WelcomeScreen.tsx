@@ -40,7 +40,7 @@ export default function WelcomeScreen() {
     return (
         <div className='welcome-screen'>
             <div className='welcome-screen__content-wrapper'>
-                <h1 className='welcome-screen__title'>Profit Hub</h1>
+                <h1 className='welcome-screen__title'>Loco Hub</h1>
                 <p className='welcome-screen__subtitle'>
                     Smart Analysis tools, High accuracy strategies, Signals, Advanced Trading Engines, Automation
                     <br />
@@ -78,7 +78,7 @@ export default function WelcomeScreen() {
                         </div>
                         <div className='welcome-screen__contact-item welcome-screen__contact-item--right'>
                             <span>WhatsApp</span>
-                            <span>+254757722344</span>
+                            <span>+254750452512</span>
                         </div>
                     </div>
                     <div className='welcome-screen__support-text'>24/7 Support Available</div>

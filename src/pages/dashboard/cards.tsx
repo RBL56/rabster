@@ -111,6 +111,21 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                 });
             },
         },
+        {
+            id: 'youtube',
+            icon: (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="24" cy="24" r="22" fill="#FF0000" />
+                        <path d="M32 24L20 31V17L32 24Z" fill="white" />
+                    </svg>
+                </div>
+            ),
+            content: <Localize i18n_default_text='YouTube' />,
+            callback: () => {
+                window.open('https://www.youtube.com/@LocoTradinghub', '_blank');
+            },
+        },
     ];
 
     return React.useMemo(
