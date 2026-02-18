@@ -7,7 +7,7 @@ export const AppLogo = () => {
     if (!isDesktop) return null;
     return (
         <div className='app-header__logo' style={{ display: 'flex', alignItems: 'center' }}>
-            <img src='/profithub-logo.png' alt='Profithub' style={{ height: '50px', objectFit: 'contain' }} />
+            <img src='/loco-logo.png' alt='Loco' style={{ height: '50px', objectFit: 'contain' }} />
         </div>
     );
 };

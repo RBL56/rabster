@@ -13,11 +13,11 @@ export interface BotStrategy {
 export const BOT_STRATEGIES: BotStrategy[] = [
     // Automatic Bots (6) - Fully automated with complete risk management
     {
-        id: 'profithub-premium-ai',
-        name: 'Profithub Premium A.I',
+        id: 'loco-premium-ai',
+        name: 'Loco Premium A.I',
         description: 'Advanced AI-powered automatic trading with intelligent decision making',
         type: 'automatic',
-        xmlPath: 'Automatic/PROFITHUB PREMIUM A.I.xml',
+        xmlPath: 'Automatic/LOCO PREMIUM A.I.xml',
     },
     {
         id: 'rise-fall-auto-x',
@@ -27,18 +27,18 @@ export const BOT_STRATEGIES: BotStrategy[] = [
         xmlPath: 'Automatic/RISE AND FALL AUTOMATIC X .xml',
     },
     {
-        id: 'profithub-rise-fall-auto',
-        name: 'Profithub Rise Fall Auto',
+        id: 'loco-rise-fall-auto',
+        name: 'Loco Rise Fall Auto',
         description: 'Automated rise/fall strategy with built-in risk management',
         type: 'automatic',
-        xmlPath: 'Automatic/PROFITHUB RISE FALL AUTO.xml',
+        xmlPath: 'Automatic/LOCO RISE FALL AUTO.xml',
     },
     {
-        id: 'profithub-under8-over3',
-        name: 'Profithub Under 8 Over 3 Auto',
+        id: 'loco-under8-over3',
+        name: 'Loco Under 8 Over 3 Auto',
         description: 'Specialized automatic digits strategy targeting under 8 and over 3',
         type: 'automatic',
-        xmlPath: 'Automatic/PROFITHUB UNDER 8 OVER 3 AUTO.xml',
+        xmlPath: 'Automatic/LOCO UNDER 8 OVER 3 AUTO.xml',
     },
     {
         id: 'over-under-auto-switcher',
@@ -74,18 +74,18 @@ export const BOT_STRATEGIES: BotStrategy[] = [
 
     // Normal Bots (3) - Require manual oversight and parameter tuning
     {
-        id: 'profit-hub-pro',
-        name: 'Profit Hub Pro',
+        id: 'loco-pro',
+        name: 'Loco Pro',
         description: 'Professional-grade trading bot with customizable parameters',
         type: 'normal',
-        xmlPath: 'Normal Bots/PROFIT HUB PRO.xml',
+        xmlPath: 'Normal Bots/LOCO PRO.xml',
     },
     {
-        id: 'profithub-speedbot',
-        name: 'Profithub Speedbot',
+        id: 'loco-speedbot',
+        name: 'Loco Speedbot',
         description: 'High-speed trading bot optimized for quick market movements',
         type: 'normal',
-        xmlPath: 'Normal Bots/Profithub Speedbot.xml',
+        xmlPath: 'Normal Bots/Loco Speedbot.xml',
     },
     {
         id: 'speed-bot-updated',

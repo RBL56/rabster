@@ -254,10 +254,10 @@ const AppWrapper = observer(() => {
                             redirectCallbackUri: `${window.location.origin}/callback`,
                             ...(query_param_currency
                                 ? {
-                                      state: {
-                                          account: query_param_currency,
-                                      },
-                                  }
+                                    state: {
+                                        account: query_param_currency,
+                                    },
+                                }
                                 : {}),
                         });
                     } catch (err) {
@@ -293,6 +293,7 @@ const AppWrapper = observer(() => {
                                     </>
                                 }
                                 id='id-dbot-dashboard'
+                                data-keep-mounted
                             >
                                 <Dashboard handleTabChange={handleTabChange} />
                             </div>
@@ -332,6 +333,7 @@ const AppWrapper = observer(() => {
                                         ? 'id-charts--disabled'
                                         : 'id-charts'
                                 }
+                                data-keep-mounted
                             >
                                 <Suspense
                                     fallback={<ChunkLoader message={localize('Please wait, loading chart...')} />}
@@ -352,6 +354,7 @@ const AppWrapper = observer(() => {
                                     </>
                                 }
                                 id='id-tutorials'
+                                data-keep-mounted
                             >
                                 <div className='tutorials-wrapper'>
                                     <Suspense
@@ -375,6 +378,7 @@ const AppWrapper = observer(() => {
                                     </>
                                 }
                                 id='id-pro-analysis'
+                                data-keep-mounted
                             >
                                 <Suspense
                                     fallback={<ChunkLoader message={localize('Please wait, loading analysis...')} />}
@@ -390,6 +394,7 @@ const AppWrapper = observer(() => {
                                     </>
                                 }
                                 id='id-bots-list'
+                                data-keep-mounted
                             >
                                 <Suspense fallback={<ChunkLoader message={localize('Please wait, loading bots...')} />}>
                                     <Bots />
@@ -407,6 +412,7 @@ const AppWrapper = observer(() => {
                                     </>
                                 }
                                 id='id-copy-trading'
+                                data-keep-mounted
                             >
                                 <Suspense
                                     fallback={
