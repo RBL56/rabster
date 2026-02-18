@@ -2,28 +2,35 @@ import { ComponentProps, ReactNode, useMemo } from 'react';
 import Livechat from '@/components/chat/Livechat';
 import useIsLiveChatWidgetAvailable from '@/components/chat/useIsLiveChatWidgetAvailable';
 import { standalone_routes } from '@/components/shared';
+import { useOauth2 } from '@/hooks/auth/useOauth2';
 import { useFirebaseCountriesConfig } from '@/hooks/firebase/useFirebaseCountriesConfig';
 import useRemoteConfig from '@/hooks/growthbook/useRemoteConfig';
 import { useIsIntercomAvailable } from '@/hooks/useIntercom';
+import { useStore } from '@/hooks/useStore';
 import useThemeSwitcher from '@/hooks/useThemeSwitcher';
 import useTMB from '@/hooks/useTMB';
 import RootStore from '@/stores/root-store';
 import {
-    LegacyAccountLimitsIcon,
-    LegacyCashierIcon,
-    LegacyChartsIcon,
-    LegacyHelpCentreIcon,
-    LegacyHomeOldIcon,
-    LegacyProfileSmIcon,
-    LegacyReportsIcon,
-    LegacyResponsibleTradingIcon,
-    LegacyTheme1pxIcon,
-    LegacyWhatsappIcon,
-} from '@deriv/quill-icons/Legacy';
+    StandaloneMoonRegularIcon,
+    StandaloneRightToBracketRegularIcon,
+    StandaloneUserRegularIcon,
+} from '@deriv/quill-icons/Standalone';
 import { BrandDerivLogoCoralIcon } from '@deriv/quill-icons/Logo';
 import { useTranslations } from '@deriv-com/translations';
 import { ToggleSwitch } from '@deriv-com/ui';
 import { URLConstants } from '@deriv-com/utils';
+import { clearAuthData, handleOidcAuthFailure } from '@/utils/auth-utils';
+import { AuthManager } from '@/utils/AuthManager';
+import { generateOAuthURL } from '@/components/shared';
+
+const YouTubeIcon = ({ className }: { className?: string; height?: number; width?: number; iconSize?: string }) => (
+    <svg className={className} width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <path
+            d='M15.8 4.8c-.2-1.3-.8-2.2-2-2.4C11.4 2 8 2 8 2s-3.4 0-5.8.4c-1.2.2-1.8 1.1-2 2.4-.2 1-.2 2.1-.2 3.2 0 1.1 0 2.2.2 3.2.2 1.3.8 2.2 2 2.4 2.4.4 5.8.4 5.8.4s3.4 0 5.8-.4c1.2-.2 1.8-1.1 2-2.4.2-1 .2-2.1.2-3.2 0-1.1 0-2.2-.2-3.2zM6.4 10.4V5.6L10.4 8l-4 2.4z'
+            fill='#FF0000'
+        />
+    </svg>
+);
 
 export type TSubmenuSection = 'accountSettings' | 'cashier' | 'reports';
 
@@ -42,8 +49,10 @@ type TMenuConfig = {
 }[];
 
 const useMobileMenuConfig = (client?: RootStore['client']) => {
-    const { localize } = useTranslations();
+    const { localize, currentLang } = useTranslations();
     const { is_dark_mode_on, toggleTheme } = useThemeSwitcher();
+    const { client: storeClient } = useStore();
+    const { oAuthLogout } = useOauth2({ handleLogout: async () => storeClient.logout(), client: storeClient });
 
     const { data } = useRemoteConfig(true);
     const { cs_chat_whatsapp } = data;
@@ -57,7 +66,7 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
     const is_logged_in = client?.is_logged_in;
     const client_residence = client?.residence;
     const accounts = client?.accounts || {};
-    const { isTmbEnabled } = useTMB();
+    const { isTmbEnabled, onRenderTMBCheck } = useTMB();
     const is_tmb_enabled = window.is_tmb_enabled || isTmbEnabled();
 
     const { hubEnabledCountryList } = useFirebaseCountriesConfig();
@@ -102,94 +111,52 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
         (): TMenuConfig[] => [
             [
                 {
-                    as: 'a',
-                    href: standalone_routes.deriv_com,
-                    label: localize('Deriv.com'),
-                    LeftComponent: BrandDerivLogoCoralIcon,
-                },
-                {
-                    as: 'a',
-                    href: standalone_routes.deriv_app,
-                    label: localize("Trader's Hub"),
-                    LeftComponent: LegacyHomeOldIcon,
-                },
-                {
-                    as: 'a',
-                    href: standalone_routes.bot,
-                    label: localize('Trade'),
-                    LeftComponent: LegacyChartsIcon,
-                    isActive: true, // Always highlight Trade as active
-                },
-                {
-                    as: 'a',
-                    href: getRedirectUrl(),
-                    label: localize('Account Settings'),
-                    LeftComponent: LegacyProfileSmIcon,
-                },
-                !has_wallet &&
-                    !is_hub_enabled_country && {
-                        as: 'a',
-                        href: standalone_routes.cashier_deposit,
-                        label: localize('Cashier'),
-                        LeftComponent: LegacyCashierIcon,
-                    },
-                client?.is_logged_in && {
-                    as: 'button',
-                    label: localize('Reports'),
-                    LeftComponent: LegacyReportsIcon,
-                    submenu: 'reports',
-                    onClick: () => {},
-                },
-                {
                     as: 'button',
                     label: localize('Dark theme'),
-                    LeftComponent: LegacyTheme1pxIcon,
+                    LeftComponent: StandaloneMoonRegularIcon,
                     RightComponent: <ToggleSwitch value={is_dark_mode_on} onChange={toggleTheme} />,
                 },
+                !is_logged_in && {
+                    as: 'button',
+                    label: localize('Log in'),
+                    LeftComponent: StandaloneRightToBracketRegularIcon,
+                    onClick: async () => {
+                        clearAuthData(false);
+                        try {
+                            const tmbEnabled = await isTmbEnabled();
+                            if (tmbEnabled) {
+                                await onRenderTMBCheck(true);
+                            } else {
+                                try {
+                                    window.location.href = AuthManager.getLoginUrl(currentLang?.toLowerCase() ?? 'en');
+                                } catch (err) {
+                                    handleOidcAuthFailure(err);
+                                    window.location.replace(generateOAuthURL());
+                                }
+                            }
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    },
+                },
+                !is_logged_in && {
+                    as: 'button',
+                    label: localize('Sign up'),
+                    LeftComponent: StandaloneUserRegularIcon,
+                    onClick: () => {
+                        window.open(standalone_routes.signup, '_blank');
+                    },
+                },
+                is_logged_in && {
+                    as: 'button',
+                    label: localize('Log out'),
+                    LeftComponent: StandaloneRightToBracketRegularIcon,
+                    onClick: oAuthLogout,
+                    removeBorderBottom: true,
+                },
             ].filter(Boolean) as TMenuConfig,
-            [
-                {
-                    as: 'a',
-                    href: standalone_routes.help_center,
-                    label: localize('Help center'),
-                    LeftComponent: LegacyHelpCentreIcon,
-                },
-                {
-                    as: 'a',
-                    href: standalone_routes.account_limits,
-                    label: localize('Account limits'),
-                    LeftComponent: LegacyAccountLimitsIcon,
-                },
-                {
-                    as: 'a',
-                    href: standalone_routes.responsible,
-                    label: localize('Responsible trading'),
-                    LeftComponent: LegacyResponsibleTradingIcon,
-                },
-                cs_chat_whatsapp
-                    ? {
-                          as: 'a',
-                          href: URLConstants.whatsApp,
-                          label: localize('WhatsApp'),
-                          LeftComponent: LegacyWhatsappIcon,
-                          target: '_blank',
-                      }
-                    : null,
-                is_livechat_available || icAvailable
-                    ? {
-                          as: 'button',
-                          label: localize('Live chat'),
-                          LeftComponent: Livechat,
-                          onClick: () => {
-                              icAvailable ? window.Intercom('show') : window.LiveChatWidget?.call('maximize');
-                          },
-                      }
-                    : null,
-            ].filter(Boolean) as TMenuConfig,
-            // Logout button removed from mobile interface as per acceptance criteria
-            [],
         ],
-        [is_virtual, currency, is_logged_in, client_residence, is_tmb_enabled]
+        [is_logged_in, is_dark_mode_on, toggleTheme, oAuthLogout, isTmbEnabled, onRenderTMBCheck, currentLang, localize]
     );
 
     return {

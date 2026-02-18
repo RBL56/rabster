@@ -28,7 +28,7 @@ const DashboardComponent = observer(({ handleTabChange }: TMobileIconGuide) => {
                     'tab__dashboard--tour-active': active_tour,
                 })}
             >
-                <div className='tab__dashboard__content'>
+                <div className={classNames('tab__dashboard__content', { 'tab__dashboard__content--empty': !has_dashboard_strategies })}>
                     {client.is_logged_in && (
                         <Announcements is_mobile={!isDesktop} is_tablet={isTablet} handleTabChange={handleTabChange} />
                     )}

@@ -75,7 +75,7 @@ const MobileMenu = () => {
                             <ReportsSubmenu />
                         </>
                     ) : (
-                        <MenuContent onOpenSubmenu={openSubmenu} />
+                        <MenuContent onOpenSubmenu={openSubmenu} onClose={closeDrawer} />
                     )}
                 </Drawer.Content>
 

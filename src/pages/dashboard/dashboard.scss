@@ -190,6 +190,12 @@
                 padding: 1.6rem;
             }
 
+            &--empty {
+                background: radial-gradient(circle at 5% 5%, rgba(0, 114, 255, 0.08) 0%, transparent 40%),
+                    radial-gradient(circle at 95% 95%, rgba(124, 58, 237, 0.08) 0%, transparent 40%),
+                    var(--general-main-1);
+            }
+
             .quick-panel {
                 flex: 1 1 44%;
             }
@@ -332,6 +338,8 @@
 
                 @include mobile-screen {
                     flex-wrap: wrap;
+                    justify-content: center;
+                    gap: 1rem;
                 }
 
                 @include tablet-screen {
@@ -426,9 +434,10 @@
                 }
 
                 &:hover {
-                    transform: translateY(-5px) scale(1.02);
+                    transform: translateY(-5px);
                     box-shadow: $card-shadow-hover;
-                    border-color: var(--border-active);
+                    border-color: var(--brand-red-coral);
+                    background: var(--general-section-2);
                 }
 
                 &:active {

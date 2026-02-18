@@ -8,9 +8,10 @@ import useMobileMenuConfig from './use-mobile-menu-config';
 
 type TMenuContentProps = {
     onOpenSubmenu?: (submenu: string) => void;
+    onClose?: () => void;
 };
 
-const MenuContent = observer(({ onOpenSubmenu }: TMenuContentProps) => {
+const MenuContent = observer(({ onOpenSubmenu, onClose }: TMenuContentProps) => {
     const { isDesktop } = useDevice();
     const { client } = useStore();
     const textSize = isDesktop ? 'sm' : 'md';
@@ -18,19 +19,11 @@ const MenuContent = observer(({ onOpenSubmenu }: TMenuContentProps) => {
 
     return (
         <div className='mobile-menu__content'>
-            <div className='mobile-menu__content__platform'>
-                <PlatformSwitcher />
-            </div>
-
             <div className='mobile-menu__content__items'>
                 {config.map((item, index) => {
-                    const removeBorderBottom = item.find(({ removeBorderBottom }) => removeBorderBottom);
-
                     return (
                         <div
-                            className={clsx('mobile-menu__content__items--padding', {
-                                'mobile-menu__content__items--bottom-border': !removeBorderBottom,
-                            })}
+                            className='mobile-menu__content__items--padding mobile-menu__content__items--bottom-border'
                             data-testid='dt_menu_item'
                             key={index}
                         >
@@ -46,13 +39,12 @@ const MenuContent = observer(({ onOpenSubmenu }: TMenuContentProps) => {
                                     target,
                                     isActive,
                                 }) => {
-                                    const is_deriv_logo = label === 'Deriv.com';
                                     if (as === 'a') {
                                         return (
                                             <MenuItem
                                                 as='a'
                                                 className={clsx('mobile-menu__content__items__item', {
-                                                    'mobile-menu__content__items__icons': !is_deriv_logo,
+                                                    'mobile-menu__content__items__icons': true,
                                                     'mobile-menu__content__items__item--active': isActive,
                                                 })}
                                                 disableHover
@@ -61,8 +53,7 @@ const MenuContent = observer(({ onOpenSubmenu }: TMenuContentProps) => {
                                                 leftComponent={
                                                     <LeftComponent
                                                         className='mobile-menu__content__items--right-margin'
-                                                        height={16}
-                                                        width={16}
+                                                        iconSize='sm'
                                                     />
                                                 }
                                                 target={target}
@@ -75,7 +66,7 @@ const MenuContent = observer(({ onOpenSubmenu }: TMenuContentProps) => {
                                         <MenuItem
                                             as='button'
                                             className={clsx('mobile-menu__content__items__item', {
-                                                'mobile-menu__content__items__icons': !is_deriv_logo,
+                                                'mobile-menu__content__items__icons': true,
                                                 'mobile-menu__content__items__item--active': isActive,
                                             })}
                                             disableHover
@@ -91,6 +82,7 @@ const MenuContent = observer(({ onOpenSubmenu }: TMenuContentProps) => {
                                                     onOpenSubmenu(submenu);
                                                 } else if (onClick) {
                                                     onClick();
+                                                    onClose?.();
                                                 }
                                             }}
                                             rightComponent={

@@ -19,14 +19,14 @@ const MenuHeader = ({ hideLanguageSetting, openLanguageSetting }: TMenuHeader) =
 
     return (
         <div className='mobile-menu__header'>
-            <Text size={isDesktop ? 'md' : 'lg'} weight='bold'>
+            <Text className='mobile-menu__header__title' size={isDesktop ? 'md' : 'lg'} weight='bold'>
                 {localize('Menu')}
             </Text>
 
             {!hideLanguageSetting && (
-                <button className='mobile-menu__header__language items-center' onClick={openLanguageSetting}>
+                <button className='mobile-menu__header__language' onClick={openLanguageSetting}>
                     {countryIcon}
-                    <Text className='ml-[0.4rem]' size={isDesktop ? 'xs' : 'sm'} weight='bold'>
+                    <Text size={isDesktop ? 'xs' : 'sm'} weight='bold'>
                         {currentLang}
                     </Text>
                 </button>

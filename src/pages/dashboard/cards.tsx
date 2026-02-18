@@ -132,12 +132,12 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
         () => (
             <div
                 className={classNames('tab__dashboard__table', {
-                    'tab__dashboard__table--minimized': has_dashboard_strategies && is_mobile,
+                    'tab__dashboard__table--minimized': is_mobile,
                 })}
             >
                 <div
                     className={classNames('tab__dashboard__table__tiles', {
-                        'tab__dashboard__table__tiles--minimized': has_dashboard_strategies && is_mobile,
+                        'tab__dashboard__table__tiles--minimized': is_mobile,
                     })}
                     id='tab__dashboard__table__tiles'
                 >
@@ -147,12 +147,12 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                             <div
                                 key={id}
                                 className={classNames('tab__dashboard__table__block', {
-                                    'tab__dashboard__table__block--minimized': has_dashboard_strategies && is_mobile,
+                                    'tab__dashboard__table__block--minimized': is_mobile,
                                 })}
                             >
                                 <div
                                     className={classNames('tab__dashboard__table__images', {
-                                        'tab__dashboard__table__images--minimized': has_dashboard_strategies,
+                                        'tab__dashboard__table__images--minimized': is_mobile,
                                     })}
                                     width='8rem'
                                     height='8rem'
