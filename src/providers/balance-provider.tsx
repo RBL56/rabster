@@ -24,7 +24,8 @@ export const BalanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const hasFetched = useRef(false);
-    const { client } = useStore();
+    const store = useStore();
+    const client = store?.client;
 
     const fetchBalance = async () => {
         if (!api_base.api) return;
@@ -35,7 +36,7 @@ export const BalanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
                 const activeLoginid = localStorage.getItem('active_loginid');
                 const activeBalance = res.balance.accounts?.[activeLoginid ?? ''];
 
-                if (activeBalance) {
+                if (activeBalance && client) {
                     setBalance(activeBalance.balance.toString());
                     setCurrency(activeBalance.currency);
                     // Also update the store to maintain consistency with existing MobX logic
@@ -43,7 +44,9 @@ export const BalanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
                     client.setCurrency(activeBalance.currency);
                 }
 
-                client.setAllAccountsBalance(res.balance);
+                if (client) {
+                    client.setAllAccountsBalance(res.balance);
+                }
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch balance');
