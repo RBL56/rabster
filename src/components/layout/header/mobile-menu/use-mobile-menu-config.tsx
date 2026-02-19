@@ -60,11 +60,14 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
     const { is_livechat_available } = useIsLiveChatWidgetAvailable();
     const icAvailable = useIsIntercomAvailable();
 
+    const { isAuthorized, activeLoginid, accountList } = useApiBase();
+
     // Get current account information for dependency tracking
-    const is_virtual = client?.is_virtual;
-    const currency = client?.getCurrency?.();
-    const is_logged_in = client?.is_logged_in;
-    const client_residence = client?.residence;
+    const activeAccount = useMemo(
+        () => accountList?.find(account => account.loginid === activeLoginid),
+        [activeLoginid, accountList]
+    );
+
     const accounts = client?.accounts || {};
     const { isTmbEnabled, onRenderTMBCheck } = useTMB();
     const is_tmb_enabled = window.is_tmb_enabled || isTmbEnabled();
@@ -107,6 +110,8 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
         return getAccountUrl(standalone_routes.personal_details);
     };
 
+    const is_logged_in_fully = isAuthorized && activeLoginid && activeAccount;
+
     const menuConfig = useMemo(
         (): TMenuConfig[] => [
             [
@@ -116,7 +121,7 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
                     LeftComponent: StandaloneMoonRegularIcon,
                     RightComponent: <ToggleSwitch value={is_dark_mode_on} onChange={toggleTheme} />,
                 },
-                !is_logged_in && {
+                !is_logged_in_fully && {
                     as: 'button',
                     label: localize('Log in'),
                     LeftComponent: StandaloneRightToBracketRegularIcon,
@@ -139,7 +144,7 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
                         }
                     },
                 },
-                !is_logged_in && {
+                !is_logged_in_fully && {
                     as: 'button',
                     label: localize('Sign up'),
                     LeftComponent: StandaloneUserRegularIcon,
@@ -147,7 +152,7 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
                         window.open(standalone_routes.signup, '_blank');
                     },
                 },
-                is_logged_in && {
+                is_logged_in_fully && {
                     as: 'button',
                     label: localize('Log out'),
                     LeftComponent: StandaloneRightToBracketRegularIcon,
@@ -156,7 +161,16 @@ const useMobileMenuConfig = (client?: RootStore['client']) => {
                 },
             ].filter(Boolean) as TMenuConfig,
         ],
-        [is_logged_in, is_dark_mode_on, toggleTheme, oAuthLogout, isTmbEnabled, onRenderTMBCheck, currentLang, localize]
+        [
+            is_logged_in_fully,
+            is_dark_mode_on,
+            toggleTheme,
+            oAuthLogout,
+            isTmbEnabled,
+            onRenderTMBCheck,
+            currentLang,
+            localize,
+        ]
     );
 
     return {

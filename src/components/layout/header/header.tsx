@@ -30,7 +30,7 @@ type TAppHeaderProps = {
 
 const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
     const { isDesktop } = useDevice();
-    const { isAuthorizing, activeLoginid } = useApiBase();
+    const { isAuthorizing, activeLoginid, isAuthorized } = useApiBase();
     const { client } = useStore() ?? {};
     const { balance, isLoading: isBalanceLoading } = useBalance();
 
@@ -48,9 +48,9 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
 
     const renderAccountSection = useCallback(() => {
         // Show loader during authentication processes or initial balance loading
-        if (isAuthenticating || isAuthorizing || (isBalanceLoading && balance === '0')) {
+        if (isAuthenticating || isAuthorizing || (isBalanceLoading && balance === '0' && isAuthorized)) {
             return <AccountsInfoLoader isLoggedIn isMobile={!isDesktop} speed={3} />;
-        } else if (activeLoginid) {
+        } else if (isAuthorized && activeLoginid && activeAccount) {
             return (
                 <>
                     {/* <CustomNotifications /> */}
@@ -175,17 +175,22 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
     }, [
         isAuthenticating,
         isAuthorizing,
+        isAuthorized,
         isDesktop,
         activeLoginid,
-        standalone_routes,
-        client,
+        balance,
+        isBalanceLoading,
         has_wallet,
-        currency,
-        localize,
-        activeAccount,
+        client?.residence,
+        hubEnabledCountryList,
         is_virtual,
+        currency,
+        standalone_routes,
+        activeAccount,
+        localize,
+        isTmbEnabled,
         onRenderTMBCheck,
-        is_tmb_enabled,
+        currentLang,
     ]);
 
     if (client?.should_hide_header) return null;
