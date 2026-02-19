@@ -24,7 +24,6 @@ import {
     LabelPairedObjectsColumnCaptionRegularIcon,
     LabelPairedPuzzlePieceTwoCaptionBoldIcon,
 } from '@deriv/quill-icons/LabelPaired';
-import { LegacyGuide1pxIcon } from '@deriv/quill-icons/Legacy';
 import { StandaloneUsersRegularIcon } from '@deriv/quill-icons/Standalone';
 import { requestOidcAuthentication } from '@deriv-com/auth-client';
 import { Localize, localize } from '@deriv-com/translations';
@@ -36,8 +35,6 @@ import RunStrategy from '../dashboard/run-strategy';
 import './main.scss';
 
 const ChartWrapper = lazy(() => import('../chart/chart-wrapper'));
-const Tutorial = lazy(() => import('../tutorials'));
-const ProAnalysis = lazy(() => import('../pro-analysis'));
 const Bots = lazy(() => import('../bots/bots'));
 const CopyTrading = lazy(() => import('../copy-trading/copy-trading'));
 const BotBuilder = lazy(() => import('../bot-builder'));
@@ -72,7 +69,7 @@ const AppWrapper = observer(() => {
     const { clear } = summary_card;
     const { DASHBOARD, BOT_BUILDER } = DBOT_TABS;
     const init_render = React.useRef(true);
-    const hash = ['dashboard', 'bot_builder', 'chart', 'pro_analysis', 'bots_list', 'copy_trading'];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'bots_list', 'copy_trading'];
     const { isDesktop } = useDevice();
     const location = useLocation();
     const navigate = useNavigate();
@@ -311,26 +308,6 @@ const AppWrapper = observer(() => {
                                     fallback={<ChunkLoader message={localize('Please wait, loading chart...')} />}
                                 >
                                     <ChartWrapper show_digits_stats={false} />
-                                </Suspense>
-                            </div>
-                            <div
-                                label={
-                                    <>
-                                        <LabelPairedChartLineCaptionRegularIcon
-                                            height='24px'
-                                            width='24px'
-                                            fill='var(--text-general)'
-                                        />
-                                        <Localize i18n_default_text='Pro Analysis' />
-                                    </>
-                                }
-                                id='id-pro-analysis'
-                                data-keep-mounted
-                            >
-                                <Suspense
-                                    fallback={<ChunkLoader message={localize('Please wait, loading analysis...')} />}
-                                >
-                                    <ProAnalysis />
                                 </Suspense>
                             </div>
                             <div
