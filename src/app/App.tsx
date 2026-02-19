@@ -11,6 +11,7 @@ import Endpoint from '@/pages/endpoint';
 import { TAuthData } from '@/types/api-types';
 import { initializeI18n, TranslationProvider } from '@deriv-com/translations';
 import CoreStoreProvider from './CoreStoreProvider';
+import { BalanceProvider } from '@/providers/balance-provider';
 import './app-root.scss';
 
 const Layout = lazy(() => import('../components/layout'));
@@ -37,7 +38,9 @@ const router = createBrowserRouter(
                         <StoreProvider>
                             <RoutePromptDialog />
                             <CoreStoreProvider>
-                                <Layout />
+                                <BalanceProvider>
+                                    <Layout />
+                                </BalanceProvider>
                             </CoreStoreProvider>
                         </StoreProvider>
                     </TranslationProvider>

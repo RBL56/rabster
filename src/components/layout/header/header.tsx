@@ -5,6 +5,7 @@ import PWAInstallButton from '@/components/pwa-install-button';
 import { generateOAuthURL, standalone_routes } from '@/components/shared';
 import Button from '@/components/shared_ui/button';
 import useActiveAccount from '@/hooks/api/account/useActiveAccount';
+import { useBalance } from '@/providers/balance-provider';
 import { useFirebaseCountriesConfig } from '@/hooks/firebase/useFirebaseCountriesConfig';
 import { useApiBase } from '@/hooks/useApiBase';
 import { useStore } from '@/hooks/useStore';
@@ -31,6 +32,7 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
     const { isDesktop } = useDevice();
     const { isAuthorizing, activeLoginid } = useApiBase();
     const { client } = useStore() ?? {};
+    const { balance, isLoading: isBalanceLoading } = useBalance();
 
     const { data: activeAccount } = useActiveAccount({ allBalanceData: client?.all_accounts_balance });
     const { accounts, getCurrency, is_virtual } = client ?? {};
@@ -45,8 +47,8 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
     // No need for additional state management here since we're handling it in the layout component
 
     const renderAccountSection = useCallback(() => {
-        // Show loader during authentication processes
-        if (isAuthenticating || isAuthorizing) {
+        // Show loader during authentication processes or initial balance loading
+        if (isAuthenticating || isAuthorizing || (isBalanceLoading && balance === '0')) {
             return <AccountsInfoLoader isLoggedIn isMobile={!isDesktop} speed={3} />;
         } else if (activeLoginid) {
             return (

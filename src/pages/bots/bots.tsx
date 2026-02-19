@@ -6,6 +6,26 @@ import { BotStrategy, getAutomaticBots, getHybridBots, getNormalBots } from '@/c
 import { useStore } from '@/hooks/useStore';
 import { localize } from '@deriv-com/translations';
 import './bots.scss';
+
+/** Wait until window.Blockly.derivWorkspace is initialised (injected by the Bot Builder). */
+const waitForBlocklyWorkspace = (timeout = 10000): Promise<boolean> => {
+    return new Promise(resolve => {
+        const start = Date.now();
+        const check = () => {
+            if ((window as any).Blockly?.derivWorkspace) {
+                resolve(true);
+                return;
+            }
+            if (Date.now() - start >= timeout) {
+                resolve(false);
+                return;
+            }
+            setTimeout(check, 100);
+        };
+        check();
+    });
+};
+
 const Bots = observer(() => {
     const { load_modal, dashboard } = useStore();
     const { loadStrategyToBuilder } = load_modal;
@@ -22,9 +42,15 @@ const Bots = observer(() => {
 
             const xmlContent = await response.text();
 
-            // Switch to Bot Builder tab FIRST so the user sees the workspace immediately
-            // The loading spinner will appear on top of the Bot Builder, not the bots list
+            // Switch to Bot Builder tab so Blockly workspace is mounted
             setActiveTab(DBOT_TABS.BOT_BUILDER);
+
+            // Wait for Blockly's derivWorkspace to be fully initialised before loading
+            const ready = await waitForBlocklyWorkspace();
+            if (!ready) {
+                console.error('Blockly workspace did not initialise in time. Cannot load bot.');
+                return;
+            }
 
             // Load the XML into the workspace using loadStrategyToBuilder
             await loadStrategyToBuilder({

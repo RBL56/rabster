@@ -78,14 +78,14 @@ export const BOT_STRATEGIES: BotStrategy[] = [
         name: 'Loco Hub Pro',
         description: 'Professional-grade Loco Hub trading bot with customizable parameters',
         type: 'normal',
-        xmlPath: 'Normal Bots/LOCO PRO.xml',
+        xmlPath: 'Normal Bots/Loco PRO.xml',
     },
     {
         id: 'loco-speedbot',
         name: 'Loco Hub Speedbot',
         description: 'High-speed Loco Hub trading bot optimized for quick market movements',
         type: 'normal',
-        xmlPath: 'Normal Bots/Loco Speedbot.xml',
+        xmlPath: 'Normal Bots/loco Speedbot.xml',
     },
     {
         id: 'speed-bot-updated',
